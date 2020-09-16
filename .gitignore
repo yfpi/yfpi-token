@@ -105,3 +105,5 @@ dist
 
 #Test Contract
 /yfpi test contracts
+compile.js
+deploy.js
