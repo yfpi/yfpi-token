@@ -140,6 +140,7 @@ contract MyToken is ERC20Interface, Owned {
     string public name;
     uint8 public decimals;
     uint256 _totalSupply;
+    uint256 public burnedToken_;
     bool public isRoundOneActive;
     bool public isRoundTwoActive;
     uint256 public PresaleToken;
@@ -359,7 +360,7 @@ contract MyToken is ERC20Interface, Owned {
 
 
     // ------------------------------------------------------------------------
-    // TokenOwner can burn their tokens for tokenOwner's account
+    // To close Presale and retrive all remaining token to owner's account
     // ------------------------------------------------------------------------
 
      function closePresale()
@@ -372,11 +373,24 @@ contract MyToken is ERC20Interface, Owned {
         return true;
     }
 
+    // ------------------------------------------------------------------------
+    // TokenOwner can burn their tokens for tokenOwner's account
+    // ------------------------------------------------------------------------
+
      function burn(uint256 amount) public returns (bool success){
         require(msg.sender != address(0), "ERC20: burn from the zero address");
         balances[msg.sender] = balances[msg.sender].sub(amount);
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(msg.sender, address(0), amount);
+        burnedToken_ += amount;
          return true;
+    }
+
+    // ------------------------------------------------------------------------
+    // Owner can transfer out any accidentally stucked ether
+    // ------------------------------------------------------------------------
+      function withdrawAll() public onlyOwner {
+        msg.sender.transfer(address(this).balance);
+        emit Transfer(address(this), msg.sender, address(this).balance);
     }
 }
