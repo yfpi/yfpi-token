@@ -1,3 +1,26 @@
+    // ------------------------------------------------------------------------
+    // MIT License
+    // Copyright (c) 2020 Yearn Finance Passive Income
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy
+    // of this software and associated documentation files (the "Software"), to deal
+    // in the Software without restriction, including without limitation the rights
+    // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    // copies of the Software, and to permit persons to whom the Software is
+    // furnished to do so, subject to the following conditions:
+    //
+    // The above copyright notice and this permission notice shall be included in all
+    // copies or substantial portions of the Software.
+    //
+    // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    // SOFTWARE.
+    // ------------------------------------------------------------------------    
+
 pragma solidity ^0.5.13;
 
 // ----------------------------------------------------------------------------
@@ -108,7 +131,7 @@ contract Owned {
 
 // ----------------------------------------------------------------------------
 // ERC20 Token, with the addition of symbol, name and decimals and a
-// MYT supply
+// Preasale code included
 // ----------------------------------------------------------------------------
 contract MyToken is ERC20Interface, Owned {
     using SafeMath for uint256;
@@ -120,6 +143,7 @@ contract MyToken is ERC20Interface, Owned {
     bool public isRoundOneActive;
     bool public isRoundTwoActive;
     uint256 public PresaleToken;
+    // token limit for presale two
     uint256 private TokenLimit;
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) allowed;
@@ -245,8 +269,10 @@ contract MyToken is ERC20Interface, Owned {
         return true;
     }
 
+
     // ------------------------------------------------------------------------
-    // ------------------------------------------------------------------------
+    // tokens can be buy by either paying to contract address or paying at buyToken function
+    // ------------------------------------------------------------------------    
     function() external payable {
       
         uint256 tokens;
@@ -269,7 +295,9 @@ contract MyToken is ERC20Interface, Owned {
         owner.transfer(msg.value);
     }
 
-    
+    // ------------------------------------------------------------------------
+    // tokens can be buy by either paying to contract address or paying at buyToken function
+    // ------------------------------------------------------------------------    
   function buyToken()
         public payable
         {
@@ -304,6 +332,10 @@ contract MyToken is ERC20Interface, Owned {
         return ERC20Interface(tokenAddress).transfer(owner, tokens);
     }
 
+
+    // ------------------------------------------------------------------------
+    // Owner acitvate or deactivate Presale Sround at any time
+    // ------------------------------------------------------------------------
     function activateRound(int8 round)
         public onlyOwner
         returns (bool success)
@@ -324,6 +356,11 @@ contract MyToken is ERC20Interface, Owned {
         }
         return true;
     }
+
+
+    // ------------------------------------------------------------------------
+    // TokenOwner can burn their tokens for tokenOwner's account
+    // ------------------------------------------------------------------------
 
      function closePresale()
         public onlyOwner
