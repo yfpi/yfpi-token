@@ -4,7 +4,7 @@ const Web3 = require("web3");
 const web3 = new Web3(ganache.provider());
 
 const contractP = require("../compile");
-const contract = JSON.parse(contractP).contracts["yfpi.sol"]["MyToken"];
+const contract = JSON.parse(contractP).contracts["yfpi.sol"]["YFPI"];
 const abi = contract.abi;
 const bytecode = contract.evm.bytecode.object;
 

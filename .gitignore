@@ -107,3 +107,5 @@ dist
 /yfpi test contracts
 compile.js
 deploy.js
+/trial contracts
+.vscode
