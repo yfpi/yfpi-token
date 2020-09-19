@@ -124,7 +124,7 @@ library SafeERC20 {
  * Useful for simple vesting schedules like "advisors get all of their tokens
  * after 1 year".
  */
-contract YFPITokenTimelock {
+contract LockedYFPI {
     using SafeERC20 for IERC20;
 
     // ERC20 basic token contract being held
